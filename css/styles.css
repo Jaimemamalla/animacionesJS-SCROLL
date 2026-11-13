@@ -141,11 +141,27 @@
 
 @keyframes parallax {
     from { 
-        transform: translateY(-20%);
-    }
-    to {
         transform: translateY(0);
     }
+    to {
+        transform: translateY(-20%);
+    }
+}
+
+@keyframes alejar {
+    to {
+        opacity: 0;
+        transform: translateY(-3rem) scale(0.9);
+    }
+}
+
+@keyframes dibujar-linea {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+}
+
+@keyframes escaparate-lado {
+    to { transform: translateX(calc(-100% + 100vw)); }
 }
 
 /* Y aquí las animaciones, solo para los navegadores que las entienden */
@@ -168,12 +184,13 @@
             animation-timeline: view();
             animation-range: entry 10% cover 30%;
         }
-        .tarjeta:nth-child(3n + 2) {
-            animation-delay: 0.1s;
+        /* Bonus: la 2.ª y la 3.ª tarjeta de cada fila entran un poco más tarde */
+        .revelar.tarjeta:nth-child(3n + 2) {
+            animation-range: entry 20% cover 35%;
         }
-        .tarjeta:nth-child(3n) {
-            animation-delay: 0.2s;
-        }  
+        .revelar.tarjeta:nth-child(3n) {
+            animation-range: entry 30% cover 40%;
+        }
 
         /* TAREA 3 · Parallax de la foto (.marco-parallax img)
            Línea de tiempo: view(). La imagen mide un 125 % del marco:
@@ -181,19 +198,52 @@
         .marco-parallax img {
             animation: parallax linear both;
             animation-timeline: view();
+            animation-range: exit 0% exit 100%;
         }
 
         /* TAREA 4 · La portada se aleja al salir (.portada-texto)
            Línea de tiempo: view(). Rango: exit 0% exit 90%. */
-
+        .portada-texto {
+            animation: alejar linear both;
+            animation-timeline: view();
+            animation-range: exit 0% exit 90%;
+        }
 
         /* EXTRA 1 · La línea del tiempo se dibuja (.linea-tiempo::before)
            Pista: view-timeline-name: --historia en .linea-tiempo
            y animation-timeline: --historia en su ::before. */
-
+        .linea-tiempo {
+            view-timeline-name: --historia;
+        }
+        .linea-tiempo::before {
+            animation: dibujar-linea linear both;
+            animation-timeline: --historia;
+            animation-range: entry 30% cover 70%;
+        }
 
         /* EXTRA 2 · Escaparate horizontal (.escaparate, .escaparate-fijo, .escaparate-pista)
-           Mira el README: sección de 300vh, interior sticky y pista que se desplaza. */
+           Sección de 300vh, interior sticky y pista que se desplaza. */
+        .escaparate {
+            height: 300vh;
+            padding-block: 0;
+            view-timeline-name: --escaparate;
+        }
+        .escaparate-fijo {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .escaparate-pista {
+            width: max-content;
+            overflow: visible;
+            animation: escaparate-lado linear both;
+            animation-timeline: --escaparate;
+            animation-range: contain 0% contain 100%;
+        }
 
     }
 }

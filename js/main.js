@@ -11,4 +11,8 @@
 
 */
 
-// Escribe aquí tu código
+const lenis = new Lenis({
+   autoRaf: true,
+   lerp: 0.1,
+   anchors: { offset: -80 }
+});
