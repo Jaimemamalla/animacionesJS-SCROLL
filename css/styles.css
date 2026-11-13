@@ -122,13 +122,21 @@
    ========================================================= */
 
 /* Escribe aquí tus @keyframes (fuera de capas) */
-
+@keyframes barra-progreso {
+    to { 
+        transform: scaleX(1); 
+    }
+}
 
 
 /* Y aquí las animaciones, solo para los navegadores que las entienden */
 @supports (animation-timeline: view()) {
     @layer components {
-
+        .barra-progreso {
+            animation: barra-progreso linear both;
+            animation-timeline: scroll(root);
+            transform: scaleX(0);
+        }
         /* TAREA 1 · Barra de progreso (.barra-progreso)
            Línea de tiempo: scroll(root). Anima transform: scaleX(0) -> scaleX(1). */
 
